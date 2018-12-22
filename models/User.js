@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
        city: { type: String, required: true },
        country: { type: String, required: true },
        address: String,
-       gender: { type: String, required: true, enum: ["Male", "Female", "Other"], default: "Other" },
+       gender: { type: String, required: true, index: true, enum: ["Male", "Female", "Other"], default: "Other" },
        phone: { type: String, match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ },
        image: String
     },
@@ -29,7 +29,11 @@ const UserSchema = new mongoose.Schema({
     chats: [ mongoose.Schema.Types.ObjectId ],
     matches: [ mongoose.Schema.Types.ObjectId ],
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: "updated_at" }
+    timestamps: { createdAt: 'created_at', updatedAt: "updated_at" },
+    autoIndex: false // Production way
 });
+
+// Usamos index a nivel de field, más arriba
+// UserSchema.index({gender: 1, birthday: -1})
 
 module.exports = new mongoose.model("User", UserSchema);

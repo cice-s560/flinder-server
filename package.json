@@ -3,7 +3,8 @@
   "version": "1.0.0-alpha-1",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "debug": "node --inspect index.js"
   },
   "dependencies": {
     "debug": "~2.6.9",
