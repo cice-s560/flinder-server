@@ -3,15 +3,18 @@
   "version": "1.0.0-alpha-1",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "debug": "node --inspect index.js"
+    "start": "nodemon index.js",
+    "debug": "nodemon --inspect index.js"
   },
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "debug": "~2.6.9",
     "dotenv": "^6.2.0",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
     "mongoose": "^5.4.0",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "nodemon": "^1.18.9"
   }
 }

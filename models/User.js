@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
        phone: { type: String, match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ },
        image: String
     },
-    auth: {},
+    auth: { type: String},
     lastlogin: { type: Date, default: Date.now() },
     matchescriteria: {},
     lastgeo: {
