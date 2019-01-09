@@ -3,17 +3,21 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const app = express();
 
 const usersRouter = require("./routes/users");
-const usersAuthLogin = require("./routes/auth/login");
-const usersAuthCreate = require("./routes/auth/create");
-const usersAuthCheck = require("./routes/auth/check");
+const usersAuthLogin = require("./routes/login");
+const usersAuthCreate = require("./routes/create");
+const usersAuthCheck = require("./routes/check");
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(session({
   secret: 'authenticator custom',
   resave: false,

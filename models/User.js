@@ -15,7 +15,10 @@ const UserSchema = new mongoose.Schema({
        phone: { type: String, match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ },
        image: String
     },
-    auth: { type: String},
+    auth: {
+        pass: {type: String, required: true},
+        token: {type: String},
+    },
     lastlogin: { type: Date, default: Date.now() },
     matchescriteria: {},
     lastgeo: {
@@ -36,4 +39,4 @@ const UserSchema = new mongoose.Schema({
 // Usamos index a nivel de field, más arriba
 // UserSchema.index({gender: 1, birthday: -1})
 
-module.exports = new mongoose.model("User", UserSchema);
+module.exports = new mongoose.model("User", UserSchema, "Users");

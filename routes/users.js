@@ -14,8 +14,6 @@ router.route('/')
         "info.username": usernameFilter
       }
 
-
-
       const users = await UserModel.find(filters).catch(err => res.status(400).json(err));
 
       return res.status(200).json(users);
