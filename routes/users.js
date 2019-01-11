@@ -16,6 +16,8 @@ router.route('/')
 
       const users = await UserModel.find(filters).catch(err => res.status(400).json(err));
 
+      if (!users) return res.status(404).send('User not found');
+
       return res.status(200).json(users);
     
     }
