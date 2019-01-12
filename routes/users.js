@@ -5,7 +5,7 @@ const UserModel = require("../models/User");
 
 function checkSession(req, res, next) {
   if (req.session && req.session.user) {
-      next();
+      return next();
   }
   
   return res.status(401).send('Login required');
