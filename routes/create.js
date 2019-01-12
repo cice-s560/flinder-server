@@ -6,6 +6,7 @@ const UserModel = require('../models/User');
 
 router.post('/', (req, res, next) => {
     const user = new UserModel({
+        prueba: req.body.prueba, 
         info: {
             username: req.body.info.username, 
             firstname: req.body.info.firstname, 

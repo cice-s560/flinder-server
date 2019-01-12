@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require("../models/User");
 
-router.route('/')
-  .get(async (req, res) => {
 
-    if (req.session && req.session.user) {
+function checkSession(req, res, next) {
+  if (req.session && req.session.user) {
+      next();
+  }
+  
+  return res.status(401).send('Login required');
+}
+
+router.route('/')
+  .get(async (req, res, next) => {
+
+      checkSession(req, res, next);
 
       const genderFilter = req.query.gender || /.*/;
       const usernameFilter = req.query.username || /.*/;
@@ -20,16 +29,11 @@ router.route('/')
 
       return res.status(200).json(users);
     
-    }
-
-    return res.status(401).send('Login required');
 
   })
 
 
   .post(async (req, res) => {
-
-    if (req.session && req.session.user) {
       
       const user = new UserModel(req.body);
       const userCreated = await user.save().catch(err => {
@@ -38,9 +42,6 @@ router.route('/')
       });
 
       res.status(201).json(userCreated);
-    }
-
-  return res.status(401).send('Login required');
 
   });
 

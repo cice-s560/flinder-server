@@ -41,8 +41,6 @@ async function mongoFindOne(req, res) {
 }
 
 
-
-
 router.post('/', async function(req, res, next) {
 
     if(!req.body.username.toString().trim()) {return res.status(400);}
