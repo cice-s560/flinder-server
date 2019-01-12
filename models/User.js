@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
+    prueba: {type: String, unique: true},
     info: {
        username: { type: String, required: true }, 
        firstname: { type: String, required: true }, 
        lastname: { type: String, required: true }, 
-       email: { type: mongoose.Schema.Types.String, required: true, unique: true, match:/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ },
+       email: { type: mongoose.Schema.Types.String, required: true, unique: true, index: true, match:/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ },
        birthday: { type: Date, required: true },
        postalcode: String,
        city: { type: String, required: true },
@@ -15,7 +16,10 @@ const UserSchema = new mongoose.Schema({
        phone: { type: String, match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ },
        image: String
     },
-    auth: {},
+    auth: {
+        pass: {type: String, required: true},
+        token: {type: String},
+    },
     lastlogin: { type: Date, default: Date.now() },
     matchescriteria: {},
     lastgeo: {
@@ -30,8 +34,9 @@ const UserSchema = new mongoose.Schema({
     matches: [ mongoose.Schema.Types.ObjectId ],
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: "updated_at" },
-    autoIndex: false // Production way
+    //autoIndex: false // Production way
 });
+
 
 // Usamos index a nivel de field, más arriba
 // UserSchema.index({gender: 1, birthday: -1})
