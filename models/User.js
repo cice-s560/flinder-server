@@ -1,44 +1,64 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
-    prueba: {type: String, unique: true},
+const UserSchema = new mongoose.Schema(
+  {
     info: {
-       username: { type: String, required: true }, 
-       firstname: { type: String, required: true }, 
-       lastname: { type: String, required: true }, 
-       email: { type: mongoose.Schema.Types.String, required: true, unique: true, index: true, match:/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ },
-       birthday: { type: Date, required: true },
-       postalcode: String,
-       city: { type: String, required: true },
-       country: { type: String, required: true },
-       address: String,
-       gender: { type: String, required: true, index: true, enum: ["Male", "Female", "Other"], default: "Other" },
-       phone: { type: String, match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/ },
-       image: String
+      username: { type: String, required: true },
+      firstname: { type: String, required: true },
+      lastname: { type: String, required: true },
+      email: {
+        type: String,
+        required: true,
+        match: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+      },
+      birthday: { type: Date, required: true },
+      postalcode: String,
+      city: { type: String, required: true },
+      country: { type: String, required: true },
+      address: String,
+      gender: {
+        type: String,
+        required: true,
+        index: true,
+        enum: ["Male", "Female", "Other"],
+        default: "Other"
+      },
+      phone: {
+        type: String,
+        match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+      },
+      image: String
     },
     auth: {
-        pass: {type: String, required: true},
-        token: {type: String},
+      pass: { type: String, required: true },
+      token: { type: String }
     },
     lastlogin: { type: Date, default: Date.now() },
     matchescriteria: {},
     lastgeo: {
-        latitude: String,
-        longitude: String
+      latitude: String,
+      longitude: String
     },
-    favourites: [ mongoose.Schema.Types.ObjectId ],
-    series: [ mongoose.Schema.Types.ObjectId ],
-    movies: [ mongoose.Schema.Types.ObjectId ],
-    lists: [ mongoose.Schema.Types.ObjectId ],
-    chats: [ mongoose.Schema.Types.ObjectId ],
-    matches: [ mongoose.Schema.Types.ObjectId ],
-}, {
-    timestamps: { createdAt: 'created_at', updatedAt: "updated_at" },
+    favourites: [mongoose.Schema.Types.ObjectId],
+    series: [mongoose.Schema.Types.ObjectId],
+    movies: [mongoose.Schema.Types.ObjectId],
+    lists: [mongoose.Schema.Types.ObjectId],
+    chats: [mongoose.Schema.Types.ObjectId],
+    matches: [mongoose.Schema.Types.ObjectId]
+  },
+  {
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
     //autoIndex: false // Production way
-});
-
+  }
+);
 
 // Usamos index a nivel de field, más arriba
-// UserSchema.index({gender: 1, birthday: -1})
+// UserSchema.index({ prueba: 1 }, { unique: true });
+// UserSchema.index({ "info.gender": 1, birthday: -1 });
+// UserSchema.index({ "info.email": 1 }, { unique: true });
+
+UserSchema.on("index", function(err) {
+  console.log(err);
+});
 
 module.exports = new mongoose.model("User", UserSchema);

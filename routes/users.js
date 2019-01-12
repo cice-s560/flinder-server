@@ -12,9 +12,7 @@ function checkSession(req, res, next) {
 }
 
 router.route('/')
-  .get(async (req, res, next) => {
-
-      checkSession(req, res, next);
+  .get(checkSession, async (req, res) => {
 
       const genderFilter = req.query.gender || /.*/;
       const usernameFilter = req.query.username || /.*/;
