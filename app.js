@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const app = express();
+const cors = require("cors");
 
 const usersRouter = require("./routes/users");
 const usersAuth = require("./routes/auth");
@@ -21,17 +22,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Passport necesita serializar el usuario
 app.use(passport.initialize());
 
+app.use(cors());
+
 app.use("/users", usersRouter);
 app.use("/auth", usersAuth);
 app.use("/check", usersAuthCheck);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
