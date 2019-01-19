@@ -1,16 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const checkToken = require("../lib/checkToken");
 
-async function checkSession(req, res, next) {
-    if (req.session && req.session.user) {
-        next();
-    }
-    
-    return res.status(401).send();
-}
 
-router.get('/', checkSession, (req, res, next) => {
-    return res.json({userId: req.session.user});
+router.get('/', checkToken, (req, res, next) => {
+    return res.json({userId: req.user.id});
 })
 
 module.exports = router;

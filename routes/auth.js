@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const UserModel = require("../models/User");
 const passport = require("passport");
@@ -7,15 +8,15 @@ const LocalStrategy = require("passport-local").Strategy;
 
 /////////////////////////////////////////////////////////////
 ///// PASSPORT
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
+// passport.serializeUser(function(user, done) {
+//   done(null, user.id);
+// });
 
-passport.deserializeUser(function(id, done) {
-  UserModel.findById(id, function(err, user) {
-    done(err, user._id);
-  });
-});
+// passport.deserializeUser(function(id, done) {
+//   UserModel.findById(id, function(err, user) {
+//     done(err, user._id);
+//   });
+// });
 passport.use(
   new LocalStrategy(function(username, password, done) {
     UserModel.findOne({ "info.username": username }, async function(err, user) {
@@ -127,8 +128,16 @@ router.post("/signup", async (req, res) => {
   return res.status(201).send("created successfully");
 });
 
-router.post("/", passport.authenticate("local"), async function(req, res) {
-  return res.status(200).send();
+router.post("/", passport.authenticate("local", {session: false}), async function(req, res) {
+  // Creo el token con un payload que representa el obj que Passport me da al autorizar
+  jwt.sign(req.user, process.env.SECRET_KEY, (err, token) => {
+    if (err) {
+      return res.status(500).json({error: "JWT Fails"});
+    }
+
+    return res.status(200).json({token});
+  });
+
 });
 
 module.exports = router;

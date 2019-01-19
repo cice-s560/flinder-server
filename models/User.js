@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
   {
     info: {
-      username: { type: String, required: true },
-      firstname: { type: String, required: true },
+      username: { type: String, required: true, unique: true },
+      firstname: { type: String, required: true, },
       lastname: { type: String, required: true },
       email: {
         type: String,
         required: true,
+        unique: true,
         match: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
       },
       birthday: { type: Date, required: true },
@@ -51,14 +52,5 @@ const UserSchema = new mongoose.Schema(
     //autoIndex: false // Production way
   }
 );
-
-// Usamos index a nivel de field, más arriba
-// UserSchema.index({ prueba: 1 }, { unique: true });
-// UserSchema.index({ "info.gender": 1, birthday: -1 });
-// UserSchema.index({ "info.email": 1 }, { unique: true });
-
-UserSchema.on("index", function(err) {
-  console.log(err);
-});
 
 module.exports = new mongoose.model("User", UserSchema);
