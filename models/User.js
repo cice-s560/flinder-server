@@ -32,7 +32,12 @@ const UserSchema = new mongoose.Schema(
     },
     auth: {
       pass: { type: String, required: true },
-      token: { type: String }
+      token: { type: String },
+      social: {
+        google: {
+          id: { type: String, unique: true }
+        }
+      }
     },
     lastlogin: { type: Date, default: Date.now() },
     matchescriteria: {},
