@@ -19,8 +19,9 @@ Flinder utiliza algunos sistemas open source para su funcionamiento como son:
 
 ### Estrategias
 
-* [local] - Para acceso a la API
-* [Netflix] - Deberá obtener los datos de acceso desde su Api [Mas info](#Netflix)
+* [Local] - Para acceso a la API
+* ~~[Netflix] - No se ha podido encontrar la API [Mas info](#Netflix)~~ **(DEPRECADA)**
+* [Twitter] - Deberá obtener los datos de acceso desde su Api [Mas info](#Twitter)
 
 ### Instalación
 
@@ -44,11 +45,11 @@ Debe crear las variables de entorno en un archivo .env
 
 * SECRET_KEY (Clave personal única hasheada en SHA256)
 
-* NETFLIX_API_KEY (Clave de API de Netflix [Mas info](#Netflix) **(DEPRECADA)**
+* ~~NETFLIX_API_KEY (Clave de API de Netflix [Mas info](#Netflix)~~ **(DEPRECADA)**
 
-* NETFLIX_API_SHARED_SECRET (Clave Secreta de la API de Netflix [Mas info](#Netflix) **(DEPRECADA)**
+* ~~NETFLIX_API_SHARED_SECRET (Clave Secreta de la API de Netflix [Mas info](#Netflix)~~ **(DEPRECADA)**
 
-* CALLBACKURL (Url de vuelta al hacer login [Mas info](#Netflix) **(DEPRECADA)**
+* ~~CALLBACKURL (Url de vuelta al hacer login [Mas info](#Netflix)~~ **(DEPRECADA)**
 
 * TWITTER_API_KEY (Clave de API de TWITTER [Mas info](#twitter)
 
@@ -60,9 +61,21 @@ Debe crear las variables de entorno en un archivo .env
 
 ### Netflix
 
-Para el correcto funcionamiento del sistema, deberá completar las claves anteriormente mencionadas desde la [API de Netflix](https://netflix.github.io/). **(DEPRECADA)**
+He tratado de obtener las variables de alguna api de netflix pero ya no existe [API de Netflix](https://netflix.github.io/). **(DEPRECADA)**
 
 ### Twitter
+
+Para el correcto funcionamiento del sistema, deberá completar las claves anteriormente mencionadas desde la [API de Twitter](https://developer.twitter.com/) accediendo y registrando una app. 
+
+Deberá añadir la URL de su callback (Ejemplo: https://{url}/auth/twitter/callback) cambiando el valor de la url y añadirlo a su variable de entorno **TWITTER_CALLBACKURL**
+
+Una vez completado el proceso, el sistema le generará las claves que necesita completar en su entorno, que serán dos:
+* API Key -> TWITTER_API_KEY
+* Secret key -> TWITTER_API_SHARED_SECRET
+
+Una vez finalizado el proceso podrá acceder.
+
+
 
 ### Códigos de Error
 
