@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     info: {
       username: { type: String, required: true, unique: true },
-      firstname: { type: String, required: true, },
+      firstname: { type: String, required: true },
       lastname: { type: String, required: true },
       email: {
         type: String,
@@ -35,6 +35,9 @@ const UserSchema = new mongoose.Schema(
       token: { type: String },
       social: {
         google: {
+          id: { type: String, unique: true }
+        },
+        spotify: {
           id: { type: String, unique: true }
         }
       }
