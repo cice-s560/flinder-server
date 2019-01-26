@@ -6,12 +6,14 @@ const UserModel = require("../models/User");
 const passport = require("passport");
 const localStrategy = require("../lib/strategies/local");
 const googleStrategy = require("../lib/strategies/google");
+const githubStrategy = require("../lib/strategies/github");
 
 
 /////////////////////////////////////////////////////////////
 ///// PASSPORT
 passport.use(localStrategy);
 passport.use(googleStrategy);
+passport.use(githubStrategy);
 
 
 /////////////////////////////////////////////////////////////
@@ -79,6 +81,16 @@ router.post("/", passport.authenticate("local", { session: false }), async funct
     return res.status(500).json({ error: "JWT Fails" });
   }
 });
+
+router.get("/signin/github", passport.authorize("github", { scope: ["email", "profile"] }));
+router.get("/callback/github", passport.authenticate("github", { session: false }), async (req, res) => {
+  try {
+    const token = await generateJWT(req.user);
+    return res.redirect(`${process.env.CLIENT_AUTH_CALLBACK_URL}?token=${token}`);
+  } catch (err) {
+    return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
+  }
+})
 
 router.get("/signin/google", passport.authorize("google", { scope: ["email", "profile"] }));
 
