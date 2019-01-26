@@ -147,6 +147,6 @@ router.get("/callback/google", passport.authenticate("google", { session: false 
   } catch (err) {
     return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
   }
-);
+});
 
 module.exports = router;
