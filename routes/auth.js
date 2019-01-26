@@ -7,12 +7,14 @@ const passport = require("passport");
 const localStrategy = require("../lib/strategies/local");
 const googleStrategy = require("../lib/strategies/google");
 const spotifyStrategy = require("../lib/strategies/spotify");
+const githubStrategy = require("../lib/strategies/github");
 
 /////////////////////////////////////////////////////////////
 ///// PASSPORT
 passport.use(localStrategy);
 passport.use(googleStrategy);
 passport.use(spotifyStrategy);
+passport.use(githubStrategy);
 
 /////////////////////////////////////////////////////////////
 ////// UTILIDADES
@@ -123,6 +125,27 @@ router.get(
     } catch (err) {
       return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
     }
+});
+
+router.get("/signin/github", passport.authorize("github", { scope: ["email", "profile"] }));
+router.get("/callback/github", passport.authenticate("github", { session: false }), async (req, res) => {
+  try {
+    const token = await generateJWT(req.user);
+    return res.redirect(`${process.env.CLIENT_AUTH_CALLBACK_URL}?token=${token}`);
+  } catch (err) {
+    return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
+  }
+})
+
+router.get("/signin/google", passport.authorize("google", { scope: ["email", "profile"] }));
+
+router.get("/callback/google", passport.authenticate("google", { session: false }), async (req, res) => {
+  try {
+    const token = await generateJWT(req.user);
+
+    return res.redirect(`${process.env.CLIENT_AUTH_CALLBACK_URL}?token=${token}`);
+  } catch (err) {
+    return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
   }
 );
 
