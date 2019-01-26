@@ -36,6 +36,9 @@ const UserSchema = new mongoose.Schema(
       social: {
         google: {
           id: { type: String, unique: true }
+        },
+        github: {
+          id: { type: String, unique: true }
         }
       }
     },
