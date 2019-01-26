@@ -13,7 +13,9 @@ git pull origin master
 
 # Traemos novedades del submódulo
 echo "Actualizamos submódulo---->"
-git submodule update --recursive --remote
+cd ./flinder-server-keys
+git pull origin master
+cd ..
 
 # Sobreescribimos las variables de entorno
 echo "Actualizamos .env---->"
