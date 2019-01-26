@@ -17,7 +17,8 @@ git submodule update --recursive --remote
 
 # Sobreescribimos las variables de entorno
 echo "Actualizamos .env---->"
-mv ./flinder-server-keys/.env .env
+rm .env
+cp ./flinder-server-keys/.env .env
 
 # Actualizamos dependencias de Node.js
 echo "Actualizamos dependencias Node.js---->"
