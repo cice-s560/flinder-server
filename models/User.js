@@ -38,7 +38,6 @@ const UserSchema = new mongoose.Schema(
           id: { type: String, unique: true }
         },
         spotify: {
-        github: {
           id: { type: String, unique: true }
         },
         github: {
