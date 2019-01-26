@@ -62,8 +62,7 @@ router.post("/signup", async (req, res) => {
   user.auth.pass = await createHashedPassword(req.body.password);
 
   await user.save().catch(err => {
-    // throw err;
-    return res.status(401).send({ Error: err });
+    return res.status(500).send({ Error: err });
   });
 
   return res.status(201).send("created successfully");
@@ -125,17 +124,6 @@ router.get(
       return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
     }
   }
-
-  // passport.authenticate("spotify", {
-  //   failureRedirect: process.env.CLIENT_AUTH_CALLBACK_FAILS
-  // }),
-  // async (req, res) => {
-  //   // Successful authentication, redirect home.
-  //   const token = await generateJWT(req.user);
-  //   return res.redirect(
-  //     `${process.env.CLIENT_AUTH_CALLBACK_URL}?token=${token}`
-  //   );
-  // }
 );
 
 module.exports = router;
