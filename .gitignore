@@ -1,2 +1,4 @@
 node_modules
 .env
+.gitmodules
+flinder-server-keys

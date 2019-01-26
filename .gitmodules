@@ -1,3 +1,0 @@
-[submodule "flinder-server-keys"]
-	path = flinder-server-keys
-	url = https://github.com/cice-s560/flinder-server-keys.git
