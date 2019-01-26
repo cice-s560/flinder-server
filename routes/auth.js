@@ -82,7 +82,7 @@ router.post("/", passport.authenticate("local", { session: false }), async funct
   }
 });
 
-router.get("/signin/github", passport.authorize("github", { scope: ["email", "profile"] }));
+router.get("/signin/github", passport.authorize("github", { scope: ["user:email"] }));
 router.get("/callback/github", passport.authenticate("github", { session: false }), async (req, res) => {
   try {
     const token = await generateJWT(req.user);
