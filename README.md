@@ -45,6 +45,10 @@ Debe crear las variables de entorno en un archivo .env
 
 * SECRET_KEY (Clave personal única hasheada en SHA256)
 
+* CLIENT_AUTH_CALLBACK_URL (url de redirección exitosa)
+
+* CLIENT_AUTH_CALLBACK_FAILS = (url de redirección en caso de fallo)
+
 * ~~NETFLIX_API_KEY (Clave de API de Netflix [Mas info](#Netflix)~~ **(DEPRECADA)**
 
 * ~~NETFLIX_API_SHARED_SECRET (Clave Secreta de la API de Netflix [Mas info](#Netflix)~~ **(DEPRECADA)**

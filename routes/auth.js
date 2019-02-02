@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
-const jwt = require('jsonwebtoken');
-const bcrypt = require("bcrypt");
 const UserModel = require("../models/User");
+const hashedPassword = require("../lib/hashedpasswords");
+const tokenGenerator = require("../lib/tokengenerator");
 const passport = require("passport");
 const localStrategy = require("../lib/strategies/local");
 const NetflixStrategy = require("../lib/strategies/netflix");
@@ -13,6 +13,16 @@ const TwitterStrategy = require("../lib/strategies/twitter");
 passport.use(localStrategy);
 passport.use(NetflixStrategy);
 passport.use(TwitterStrategy);
+
+//Twitter lo requiere
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 
 
 router.post("/signup", async (req, res) => {
@@ -32,70 +42,38 @@ router.post("/signup", async (req, res) => {
   user.auth.password = await hashedPassword(req.body.password);
 
   await user.save().catch(err => {
-    throw err;
-    return res.status(500).send();
+    return res.status(500).send({ Error: err });
   });
 
   return res.status(201).send("created successfully");
 });
 
 
+router.post("/", passport.authenticate("local", { session: false }), async function (req, res) {
+  try {
+    const token = await tokenGenerator(req.user);
+    return res.status(200).json({ token });
 
-
-// router.post("/", passport.authenticate("local", { session: false }), async function (req, res) {
-//   try {
-//     const token = await tokenGenerator(req.user);
-//     return res.status(200).json({ token });
-
-// } catch (err) {
-//     return res.status(500).json({ error: "No token " });
-//   }
-// });
-
-
-
-router.get("twitter/signin/", passport.authorize("twitter"));
+} catch (err) {
+    return res.status(500).json({ error: "No token " });
+  }
+});
 
 
 
+router.get("/twitter/signin", passport.authenticate("twitter"));
 
-router.get("/twitter/callback/", passport.authenticate("twitter", { session: false, failureRedirect: '/' }), async (req, res) => {
+router.get("/twitter/callback", passport.authenticate("twitter", {failureRedirect: '/' }), async (req, res) => {
   try {
     
     const token = await tokenGenerator(req.user);
 
     return res.redirect(`${process.env.CLIENT_AUTH_CALLBACK_URL}?token=${token}`);
+
   } catch (err) {
     return res.redirect(process.env.CLIENT_AUTH_CALLBACK_FAILS);
   }
 })
-
-
-// Hash password
-async function hashedPassword(password) {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(password.toString(), 10, (err, hash) => {
-        if (err) {
-          reject(err);
-          throw err;
-        }
-  
-        return resolve(hash);
-      });
-    });
-  }
-  
-  function tokenGenerator(user) {
-    return new Promise((resolve, reject) => {
-      jwt.sign(user, process.env.SECRET_KEY, (err, token) => {
-        if (err) {
-          return reject(err);
-        }
-  
-        return resolve(token);
-      });
-    });
-  }
 
 
 module.exports = router;

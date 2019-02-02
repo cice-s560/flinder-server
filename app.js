@@ -2,6 +2,7 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
+const session = require('express-session')
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
@@ -19,11 +20,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// A petición de OAuth
+app.use(session({
+  secret: 'signin twitter the specialito',
+  resave: false,
+  saveUninitialized: true
+}))
+
 app.use(passport.initialize());
 app.use(cors());
 app.use("/users", usersRouter);
 app.use("/auth", usersAuth);
 app.use("/check", usersAuthCheck);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

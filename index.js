@@ -13,7 +13,7 @@ const db_url = process.env.DB_URL || 'localhost';
 
 
 server.listen(port, () => {
-    mongoose.connect(`mongodb://${db_url}:${db_port}/${db_name}`, err => {
+    mongoose.connect(`mongodb://${db_url}:${db_port}/${db_name}`, { useNewUrlParser: true }, err => {
        if (err) { 
            throw err;
        }
