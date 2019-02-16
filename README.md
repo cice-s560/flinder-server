@@ -18,3 +18,13 @@
 - GITHUB_CLIENT_CALLBACK
 - GITHUB_CLIENT_ID
 - GITHUB_CLIENT_SECRET
+
+### Dependencias (ENV KEYS)
+
+Es necesario instalar un submódulo de GIT para utilizar las claves de servicios y otras variables antes mencionadas.
+El repo donde están es [Flinder Keys](https://github.com/cice-s560/flinder-server-keys/).
+Para instalar el submódulo debemos correr este comando:
+
+```
+git submodule add -f https://XXXXXXXX
+```
