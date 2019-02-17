@@ -11,6 +11,7 @@ const app = express();
 
 const usersRouter = require("./routes/users");
 const usersAuth = require("./routes/auth");
+
 const usersAuthCheck = require("./routes/check");
 
 app.use(logger("dev"));
@@ -32,7 +33,6 @@ app.use(cors());
 app.use("/users", usersRouter);
 app.use("/auth", usersAuth);
 app.use("/check", usersAuthCheck);
-
 
 
 // catch 404 and forward to error handler
